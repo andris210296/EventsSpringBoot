@@ -16,9 +16,11 @@
 			<p>Name: <span th:text="${event.name}"></span></p>
 			<p>Location: <span th:text="${event.location}"></span></p>
 			<p>Date: <span th:text="${event.date}"></span></p>
-			<p>Time:<span th:text="${event.time}"></span></p>
+			<p>Time:<span th:text="${event.time}"></span></p>		
+		</div>
 		
-		</div>	
+		<th:block th:include="messageValidation"></th:block>		
+		
 		<form method="post">
 			Guest Name: <input type="text" value="" name="nameGuest"/>
 			Guest ID Code: <input type="text" value="" name="id"/>

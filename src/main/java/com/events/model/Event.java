@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.util.List;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotEmpty;
 
 /**
  * @author aandermann
@@ -17,9 +18,16 @@ public class Event implements Serializable{
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private long id;
 	
+	@NotEmpty
 	private String name;
+	
+	@NotEmpty
 	private String location;
+	
+	@NotEmpty
 	private String date;
+	
+	@NotEmpty
 	private String time;
 	
 	@OneToMany

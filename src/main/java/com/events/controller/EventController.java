@@ -1,11 +1,15 @@
 package com.events.controller;
 
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.events.model.Event;
 import com.events.model.Guest;
@@ -28,10 +32,14 @@ public class EventController {
 	}
 	
 	@RequestMapping(value="/createEvent", method=RequestMethod.POST)
-	public String forms(Event event) {
+	public String forms(@Valid Event event, BindingResult result, RedirectAttributes attributes) {
+		if(result.hasErrors()) {
+			attributes.addFlashAttribute("message", "Check those two fields");
+			return "redirect:/{id}";			
+		}
 		
 		eventController.save(event);
-		
+		attributes.addFlashAttribute("message", "Event added successfully");
 		return "redirect:/createEvent";
 	}
 	
@@ -58,10 +66,17 @@ public class EventController {
 	}
 	
 	@RequestMapping(value= "/{id}", method = RequestMethod.POST)
-	public String eventDetailsPost(@PathVariable("id") long id, Guest guest) {
+	public String eventDetailsPost(@PathVariable("id") long id, @Valid Guest guest, BindingResult result, RedirectAttributes attributes) {
+		
+		if(result.hasErrors()) {
+			attributes.addFlashAttribute("message", "Check those two fields");
+			return "redirect:/{id}";
+		}
+		
 		Event event = eventController.findById(id);
 		guest.setEvent(event);		
-		guestRepository.save(guest);		
+		guestRepository.save(guest);
+		attributes.addFlashAttribute("message", "Guest added successfully");
 		return "redirect:/{id}";
 	}
 
