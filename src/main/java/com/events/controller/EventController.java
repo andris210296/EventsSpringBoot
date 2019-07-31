@@ -8,13 +8,18 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.events.model.Event;
+import com.events.model.Guest;
 import com.events.repository.EventRepository;
+import com.events.repository.GuestRepository;
 
 @Controller
 public class EventController {
 	
 	@Autowired
 	private EventRepository eventController;
+	
+	@Autowired
+	private GuestRepository guestRepository;
 	
 	
 	@RequestMapping(value="/createEvent", method=RequestMethod.GET)
@@ -39,13 +44,25 @@ public class EventController {
 		return view;
 	}
 	
-	@RequestMapping("/{id}")
+	@RequestMapping(value= "/{id}", method = RequestMethod.GET)
 	public ModelAndView eventDetails(@PathVariable("id") long id) {
 		Event event = eventController.findById(id);
 		
 		ModelAndView view = new ModelAndView("event/eventDetails.html");
 		view.addObject("event", event);
+		
+		Iterable<Guest> guests = guestRepository.findByEvent(event);		
+		view.addObject("guests", guests);
+		
 		return view;
+	}
+	
+	@RequestMapping(value= "/{id}", method = RequestMethod.POST)
+	public String eventDetailsPost(@PathVariable("id") long id, Guest guest) {
+		Event event = eventController.findById(id);
+		guest.setEvent(event);		
+		guestRepository.save(guest);		
+		return "redirect:/{id}";
 	}
 
 

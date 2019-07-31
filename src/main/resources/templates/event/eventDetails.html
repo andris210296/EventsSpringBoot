@@ -18,10 +18,27 @@
 			<p>Date: <span th:text="${event.date}"></span></p>
 			<p>Time:<span th:text="${event.time}"></span></p>
 		
-		</div>		
+		</div>	
+		<form method="post">
+			Guest Name: <input type="text" value="" name="nameGuest"/>
+			Guest ID Code: <input type="text" value="" name="id"/>
+			
+			<button class="waves-effect waves-light btn" type="submit">Add</button>
+		</form>
 	</div>
+	
+	<h5> Guests List</h5>
+	<div class = "container" th:each="guest : ${guests}">
+		<div class="row">
+			<div class="input-field col s6">
+				<p>Guest Name: <span th:text="${guest.nameGuest}"></span></p>
+			</div>
+			<div class="input-field col s3">
+				<p>Guest ID Code: <span th:text="${guest.id}"></span></p>	
+			</div>
 
-
+		</div>
+	</div>
 
 
 	<!--JavaScript at end of body for optimized loading-->
