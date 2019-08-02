@@ -51,12 +51,14 @@
 			<tr>
 				<th>Guest Name</th>
 				<th>Guest ID Code</th>
+				<th>Delete</th>
 			</tr>
 		</thead>
 		<tbody>	
 			<tr th:each = "guest: ${guests}">
 				<td><span th:text="${guest.nameGuest}"></span></td>
 				<td><span th:text="${guest.id}"></span></td>
+				<td><a class="waves-effect waves-light btn-small" th:href="${(#mvc.url('EC#guestDelete').arg(0, guest.id)).build()}"> <i class="material-icons left">delete</i> </a></td>
 			</tr>
 		</tbody>
 	</table>

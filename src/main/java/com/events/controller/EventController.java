@@ -1,5 +1,7 @@
 package com.events.controller;
 
+import java.util.Optional;
+
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -65,6 +67,13 @@ public class EventController {
 		return view;
 	}
 	
+	@RequestMapping("/eventDelete")
+	public String eventDelete(long id) {
+		Event event = eventController.findById(id);
+		eventController.delete(event);		
+		return  "redirect:/events";		
+	}
+	
 	@RequestMapping(value= "/{id}", method = RequestMethod.POST)
 	public String eventDetailsPost(@PathVariable("id") long id, @Valid Guest guest, BindingResult result, RedirectAttributes attributes) {
 		
@@ -79,6 +88,17 @@ public class EventController {
 		attributes.addFlashAttribute("message", "Guest added successfully");
 		return "redirect:/{id}";
 	}
+	
+	@RequestMapping("/guestDelete")
+	public String guestDelete(String id) {
 
+		Optional<Guest> guest = guestRepository.findById(id);
+		guestRepository.delete(guest.get());
+		
+		Event event = guest.get().getEvent();
+		long idEvent = event.getId();
+		
+		return  "redirect:/" + String.valueOf(idEvent);				
+	}
 
 }
