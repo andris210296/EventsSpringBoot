@@ -27,6 +27,10 @@ public class EventController {
 	@Autowired
 	private GuestRepository guestRepository;
 	
+	@RequestMapping("/")
+	public String index() {
+		return "redirect:/events";
+	}	
 	
 	@RequestMapping(value="/createEvent", method=RequestMethod.GET)
 	public String form() {
