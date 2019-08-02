@@ -1,12 +1,17 @@
 package com.events.model;
 
+import java.io.Serializable;
+
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.validation.constraints.NotEmpty;
 
+import javax.persistence.*;
+
 @Entity
-public class Guest {
+public class Guest implements Serializable{
 
 	@Id
 	@NotEmpty
@@ -16,6 +21,7 @@ public class Guest {
 	private String nameGuest;
 	
 	@ManyToOne
+	@JoinColumn(name = "event")
 	private Event event;
 
 	public String getId() {

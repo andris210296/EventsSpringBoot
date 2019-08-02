@@ -30,7 +30,7 @@ public class Event implements Serializable{
 	@NotEmpty
 	private String time;
 	
-	@OneToMany
+	@OneToMany(mappedBy = "event", cascade = CascadeType.ALL)
 	private List<Guest> guests;
 
 	public long getId() {
