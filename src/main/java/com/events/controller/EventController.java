@@ -26,12 +26,7 @@ public class EventController {
 	
 	@Autowired
 	private GuestRepository guestRepository;
-	
-	@RequestMapping("/")
-	public String index() {
-		return "redirect:/events";
-	}	
-	
+		
 	@RequestMapping(value="/createEvent", method=RequestMethod.GET)
 	public String form() {
 		return "event/formEvent";
@@ -49,9 +44,9 @@ public class EventController {
 		return "redirect:/createEvent";
 	}
 	
-	@RequestMapping("/events")
+	@RequestMapping({"/","/index", "/events"})
 	public ModelAndView eventList() {
-		ModelAndView view = new ModelAndView("/index.html");
+		ModelAndView view = new ModelAndView("index.html");
 		
 		Iterable<Event> events = eventController.findAll();
 		view.addObject("events", events);
